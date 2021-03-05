@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alex-daocaoren.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="NSProxy是一个抽象超类，地位和NSObject相当，但是内部只实现一些作为root class必须的基本方法，包括一些定义在NSObjectProtocol协议中的方法；但需注意作为抽象类，它并未实现初始化方法，在收到无法响应的消息，会抛出异常，所以其子类必须需提供必要的初始化方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习NSProxy">
+<meta property="og:url" content="http://alex-daocaoren.github.io/2017/06/21/%E5%AD%A6%E4%B9%A0NSProxy/index.html">
+<meta property="og:site_name" content="稻草人的博客">
+<meta property="og:description" content="NSProxy是一个抽象超类，地位和NSObject相当，但是内部只实现一些作为root class必须的基本方法，包括一些定义在NSObjectProtocol协议中的方法；但需注意作为抽象类，它并未实现初始化方法，在收到无法响应的消息，会抛出异常，所以其子类必须需提供必要的初始化方法。">
+<meta property="og:locale">
+<meta property="og:image" content="https://gitee.com/Dcr1027/blogPhotos/raw/master/bp20190921231034.jpg">
+<meta property="article:published_time" content="2017-06-21T10:31:52.000Z">
+<meta property="article:modified_time" content="2019-09-23T05:54:56.000Z">
+<meta property="article:author" content="Daocaoren">
+<meta property="article:tag" content="Objective-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/Dcr1027/blogPhotos/raw/master/bp20190921231034.jpg">
+
+<link rel="canonical" href="http://alex-daocaoren.github.io/2017/06/21/%E5%AD%A6%E4%B9%A0NSProxy/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>学习NSProxy | 稻草人的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">稻草人的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">快乐是种态度~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://alex-daocaoren.github.io/2017/06/21/%E5%AD%A6%E4%B9%A0NSProxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daocaoren">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="稻草人的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学习NSProxy
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-21 18:31:52" itemprop="dateCreated datePublished" datetime="2017-06-21T18:31:52+08:00">2017-06-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-23 13:54:56" itemprop="dateModified" datetime="2019-09-23T13:54:56+08:00">2019-09-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>NSProxy</code>是一个抽象超类，地位和<code>NSObject</code>相当，但是内部只实现一些作为<code>root class</code>必须的基本方法，包括一些定义在<code>NSObjectProtocol</code>协议中的方法；但需注意作为抽象类，它并未实现初始化方法，在收到无法响应的消息，会抛出异常，所以其子类必须需提供必要的初始化方法。</p>
+<span id="more"></span>
+
+<p><code>NSProxy</code>主要的作用是作为替身，将收到的消息转发给实际能处理的对象。其具体子类可以用来实现透明的消息分发，或则懒实例化耗时的对象。出了要提供实例化方法，子类还需要重写<code>forwardInvocation:</code>和<code>methodSignatureForSelector:</code>方法用以处理本身没有无法响应的消息。<code>NSProxy</code>一个常用的小技巧就是用来解开循环引用，下面就以此为例来总结下如何实现一个<code>NSProxy</code>的具体子类。</p>
+<p>日常的开发中常会用到<code>NSTimer</code>类来处理一些定时任务，因为需要强应用<code>NSTimer</code>对象，而<code>NSTimer</code>本身也需要一个用来处理回调消息的对象，而这个对象往往就是<code>NSTimer</code>的持有者，那么这里就出现了循环引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController : UIViewController</span><br><span class="line">@property (nonatomic, strong) NSTimer *myTimer;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">  &#x2F;&#x2F; repeats:参数设为YES时，即时在pop controller时把myTimer置为nil，controller 也不会被释放</span><br><span class="line">    self.myTimer &#x3D; [NSTimer timerWithTimeInterval:60 target:self selector:@selector(doSomething) userInfo:nil repeats:YES];</span><br><span class="line">  [[NSRunLoop currentRunLoop] addTimer:self.myTimer forMode:NSDefaultRunLoopMode];</span><br><span class="line">   [self.myTimer fire];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)doSomething &#123;</span><br><span class="line">	&#x2F;&#x2F; </span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>可以解决的办法不止一个，但是使用替身类会更方便优雅。首先看下<code>NSProxy</code>类的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@class NSMethodSignature, NSInvocation;</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_BEGIN</span><br><span class="line"></span><br><span class="line">NS_ROOT_CLASS</span><br><span class="line">@interface NSProxy &lt;NSObject&gt; &#123;</span><br><span class="line">    Class	isa;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (id)alloc;</span><br><span class="line">+ (id)allocWithZone:(nullable NSZone *)zone NS_AUTOMATED_REFCOUNT_UNAVAILABLE;</span><br><span class="line">+ (Class)class;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 下面2个方法是普通消息转发</span><br><span class="line">&#x2F;&#x2F; 子类必须重写，否则消息转发走到这一步会报错</span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)invocation;</span><br><span class="line">&#x2F;&#x2F; 子类必须重写，否则消息转发走到这一步会报错</span><br><span class="line">- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;</span><br><span class="line"></span><br><span class="line">- (void)dealloc;</span><br><span class="line"></span><br><span class="line">@property (readonly, copy) NSString *description;</span><br><span class="line">@property (readonly, copy) NSString *debugDescription;</span><br><span class="line">&#x2F;&#x2F; 类方法，子类不应该重写</span><br><span class="line">+ (BOOL)respondsToSelector:(SEL)aSelector;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 快速消息转发，子类是可以实现该方法，官方注释可能是建议使用普通消息转发</span><br><span class="line">&#x2F;&#x2F; - (id)forwardingTargetForSelector:(SEL)aSelector;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_END</span><br></pre></td></tr></table></figure>
+
+<p>除了上面标注的方法，还需注意<code>NSProxy &lt;NSObject&gt; </code>，在不同的场景下需按需求实现对应的方法。下面看下替身类的主要实现。这里需要消息<code>[[self alloc] init]</code>，<code>KYHWeakProxy</code>继承自<code>NSProxy</code>，按说没有<code>init</code>方法的，但亲测这里不会报错，所以额外实现了<code>-init</code>方法进行保护，否则<code>init</code>方法因为没实现会走消息转发，而此时的<code>_target</code>为空最终会导致程序崩溃。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;KYHWeakProxy.h&quot;</span><br><span class="line"></span><br><span class="line">@interface KYHWeakProxy ()</span><br><span class="line">&#x2F;&#x2F; 记得，这里必须用弱引用，否则达不到解循环引用的目的</span><br><span class="line">@property (nonatomic, weak) id target;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation KYHWeakProxy</span><br><span class="line"></span><br><span class="line">+ (instancetype)proxyWithTarget:(id)target &#123;</span><br><span class="line">&#x2F;&#x2F;   KYHWeakProxy *proxy &#x3D; [[self alloc] init];</span><br><span class="line">    return [[self alloc] initWithTarget:target];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTarget:(id)target &#123;</span><br><span class="line">    _target &#x3D; target;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 防止外部错误调用</span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - forward -</span><br><span class="line"></span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)invocation &#123;</span><br><span class="line">    SEL selector &#x3D; invocation.selector;</span><br><span class="line">    if ([_target respondsToSelector:selector]) &#123;</span><br><span class="line">        [invocation invokeWithTarget:_target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel &#123;</span><br><span class="line">    return [_target methodSignatureForSelector:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - NSObjectProtocol -</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这个方法告诉外界本类是一个替身类，“isKindOfClass：”、“isMemberOfClass：”， “conformsToProtocol&quot;等</span><br><span class="line">&#x2F;&#x2F; 方法返回的结果都是所要代替类的而不是KYHWeakProxy本身</span><br><span class="line">- (BOOL)isProxy &#123;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面的实现是采用了苹果官方推荐的普通消息转发，还可以采用快速消息转发，相对速度会更快一些，具体可以参考<code>YYKit</code>中的实现。*<code>respondsToSelector</code>不会进性快速转发，但会走正常消息转发流程。在实现代理类时，如果选择走快速消息转发流程需特别注意。*那么对于上面提到的循环引用问题可以很简答的解决，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.myTimer &#x3D; [NSTimer timerWithTimeInterval:60 target:[KYHWeakProxy proxyWithTarget:self] selector:@selector(doSomething) userInfo:nil repeats:YES];</span><br></pre></td></tr></table></figure>
+
+<p>经过引入替身对象，<code>ViewController</code>和<code>NSTimer</code>的引用关系变化如下：</p>
+<img src="https://gitee.com/Dcr1027/blogPhotos/raw/master/bp20190921231034.jpg" alt="example" style="zoom:50%;" />
+
+<p>替身<code>KYHWeakProxy</code>弱引用<code>ViewController</code>解开了循环引用闭环。可以通过其他方式达到同样的效果，但使用<code>NSProxy</code>实现的替身类却更简单，改动小，适用性强。</p>
+<p><code>NSProxy</code>是和<code>NSObject</code>同样的根类，后者也可以进行消息转发，那苹果为什么非要新增一个<code>NSProxy</code>类呢，二者的区别是什么呢？</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、NSObject不会转发respondsToSelector：、 isKindOfClass:、isMemberOfClass：等方法</span><br><span class="line">2、NSObject的所有Category中定义的方法无法在子类中完成转发，如NSObject(NSKeyValueCoding）</span><br></pre></td></tr></table></figure>
+
+<p>作为一个抽象根类，<code>NSProxy</code>只实现了少量根类必须的方法，相对对消息转发更开放，也就符合其作为代理类的设计初衷，在日常使用中也建议使用<code>NSProxy</code>作为消息转发的代理类。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/05/16/%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93%E4%B9%8Bproperty%E7%9B%B8%E5%85%B3/" rel="prev" title="基础总结之property相关">
+      <i class="fa fa-chevron-left"></i> 基础总结之property相关
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/05/%E8%B0%88%E8%B0%88runloop/" rel="next" title="谈谈runloop">
+      谈谈runloop <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daocaoren</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daocaoren</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

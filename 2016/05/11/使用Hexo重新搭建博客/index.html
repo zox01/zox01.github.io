@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alex-daocaoren.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="现在想写博客是很方便的，简单一些的可以直接选择博客网站(如CSDN、博客园、简书等)，优点是不用自己管理，简单易用，可以专注于写。麻烦一点的可以选择搭建自己的静态博客站点，需要自己管理，负责发布等，但优点是更自由、更强大、博客迁移方便。博主之前也在博客园写过几篇博客，后来使用octopress搭建了个人博客，但这个维护比较麻烦，目前改用Hexo；比起前者，Hexo配置更简单、有中文官方文档、更丰富">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Hexo重新搭建博客">
+<meta property="og:url" content="http://alex-daocaoren.github.io/2016/05/11/%E4%BD%BF%E7%94%A8Hexo%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="稻草人的博客">
+<meta property="og:description" content="现在想写博客是很方便的，简单一些的可以直接选择博客网站(如CSDN、博客园、简书等)，优点是不用自己管理，简单易用，可以专注于写。麻烦一点的可以选择搭建自己的静态博客站点，需要自己管理，负责发布等，但优点是更自由、更强大、博客迁移方便。博主之前也在博客园写过几篇博客，后来使用octopress搭建了个人博客，但这个维护比较麻烦，目前改用Hexo；比起前者，Hexo配置更简单、有中文官方文档、更丰富">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-05-11T02:18:29.000Z">
+<meta property="article:modified_time" content="2019-01-14T02:50:03.000Z">
+<meta property="article:author" content="Daocaoren">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://alex-daocaoren.github.io/2016/05/11/%E4%BD%BF%E7%94%A8Hexo%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用Hexo重新搭建博客 | 稻草人的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">稻草人的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">快乐是种态度~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://alex-daocaoren.github.io/2016/05/11/%E4%BD%BF%E7%94%A8Hexo%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daocaoren">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="稻草人的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Hexo重新搭建博客
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-05-11 10:18:29" itemprop="dateCreated datePublished" datetime="2016-05-11T10:18:29+08:00">2016-05-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-01-14 10:50:03" itemprop="dateModified" datetime="2019-01-14T10:50:03+08:00">2019-01-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9D%82%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">杂记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>现在想写博客是很方便的，简单一些的可以直接选择博客网站(如CSDN、博客园、简书等)，优点是不用自己管理，简单易用，可以专注于写。麻烦一点的可以选择搭建自己的静态博客站点，需要自己管理，负责发布等，但优点是更自由、更强大、博客迁移方便。博主之前也在博客园写过几篇博客，后来使用octopress搭建了个人博客，但这个维护比较麻烦，目前改用Hexo；比起前者，Hexo配置更简单、有中文官方文档、更丰富的主题。在此总结下自己的搭建过程，分享给想使用Hexo的朋友。</p>
+<span id="more"></span>
+
+<h3 id="一、-准备工作"><a href="#一、-准备工作" class="headerlink" title="一、 准备工作"></a>一、 准备工作</h3><p>搭建环境：mac</p>
+<p>相关工具：Homebrew、git（网上安装资料很多）</p>
+<h3 id="二、Github-配置过SSH-key的请忽略"><a href="#二、Github-配置过SSH-key的请忽略" class="headerlink" title="二、Github 配置过SSH key的请忽略"></a>二、Github 配置过SSH key的请忽略</h3><p>1、 生成ssh，cd ~/.ssh 目录查看是否存在秘钥，有则备份(以防损坏已有的秘钥)；如果没有秘钥也可能没有.ssh目录。终端输入下面的命令，邮箱选择你github登录使用的邮箱，运行命令行<code>ssh-keygen -t rsa -C &quot;xxx@xxx.com&quot; -f githubRsa</code>，按3次enter键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">结果如下DcrdeMacBook-Pro:.ssh byAlex$ ssh-keygen -t rsa -C &quot;917022128@q.com&quot; -f githubRsa</span><br><span class="line">Generating public&#x2F;private rsa key pair.</span><br><span class="line">Enter passphrase (empty for no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved in githubRsa.</span><br><span class="line">Your public key has been saved in githubRsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:9o2TmrtkVvLzXx6nZEMAZ9jdYDEOtr5apJSoVL0wkP0 917022128@q.com</span><br><span class="line">The key&#39;s randomart image is:</span><br><span class="line">+---[RSA 2048]----+</span><br><span class="line">|      .o  .o&#x3D;.&#x3D;+ |</span><br><span class="line">|      .....&#x3D;.&#x3D;...|</span><br><span class="line">|        +.. o .  |</span><br><span class="line">|       . +E+ .   |</span><br><span class="line">|      . S &#x3D; o .  |</span><br><span class="line">|     . o * * o   |</span><br><span class="line">|      . + O + +.o|</span><br><span class="line">|       + o * o &#x3D;o|</span><br><span class="line">|        &#x3D;o. ..o .|</span><br><span class="line">+----[SHA256]-----+</span><br><span class="line">DcrdeMacBook-Pro:.ssh byAlex$ ls</span><br><span class="line">blog		blogPhoto.pub	github_rsa	id_rsa.pub</span><br><span class="line">blog.pub	githubRsa	github_rsa.pub	key_backup</span><br><span class="line">blogPhoto	githubRsa.pub	id_rsa		known_hosts</span><br></pre></td></tr></table></figure>
+
+<p>2、复制githubRsa.pub中的内容到剪切板，然后添加到github。找不到的可以按下面的步奏操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">点击头像下拉选项选择Settings--&gt;SSH and GPG keys --&gt; New SSH key</span><br><span class="line">把刚刚复制的内容粘贴到key里，title随便写个就行，点击 add SSH完成</span><br></pre></td></tr></table></figure>
+
+<p>3、测试SSH key设置是否成功</p>
+<p>执行<code>ssh -T git@github.com</code>命令， 如终端显示结果如下说明SSH key配置成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi XXXX! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+
+<p>4、创建一个仓库来存放博客，注意仓库的名字<code>yourGithubUserName.github.io</code>，想了解的可以看看 <em>githubPage</em>，</p>
+<h3 id="三、安装配置Hexo"><a href="#三、安装配置Hexo" class="headerlink" title="三、安装配置Hexo"></a>三、安装配置Hexo</h3><p>1、下载安装 Node.js，二选一</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/">官方下载</a> ，当前版本v4.4.4</li>
+<li>命令行安装 <code>brew install node</code></li>
+</ul>
+<p>2、安装Hexo</p>
+<ul>
+<li><p>npm直接安装<code>sudo npm install -g hexo</code></p>
+<p>3、初始化</p>
+<p>安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line">cd &lt;folder&gt;</span><br><span class="line">npm install</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">初始化成功可以看到以下文件或目录_config.yml   全局配置文件</span><br><span class="line">package.json  应用程序的信息</span><br><span class="line">scaffolds     模版文件夹</span><br><span class="line">scripts       脚本文件夹</span><br><span class="line">source        资源文件夹是存放用户资源的地方</span><br><span class="line">themes        存放皮肤的文件夹,默认皮肤为landscape</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>4、配置_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repo处填写你github上存放博客的仓库地址   deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: https:&#x2F;&#x2F;github.com&#x2F;username&#x2F;username.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="四、写博客"><a href="#四、写博客" class="headerlink" title="四、写博客"></a>四、写博客</h3><p>下面介绍下hexo的常见命令：</p>
+<p>1、新建一篇博客</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &quot;新建博客title&quot;</span><br></pre></td></tr></table></figure>
+
+<p>layout 指定该博客的布局，共有三种布局，经常使用的就post和draft，默认是post布局。使用post布局生成的<code>.md</code>后缀的markdown文件在<code>source/_posts</code>目录下，该目录下的博客会被处理生成静态页面用于发布。使用draft布局生成的<code>.md</code>文件在<code>source/_drafts</code>目录下，该目录下的文件作为草稿不会被处理，如果需要发布该目录下的某篇博客草稿，需要使用命令<code>hexo publish post &quot;要发布的博客title&quot;</code>进行发布，你会发现该篇博客会被移动到<code>source/_posts</code>目录下。</p>
+<p>2、部署之前预先生成静态文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate 或 hexo g</span><br></pre></td></tr></table></figure>
+
+<p>3、启动服务器，可以在发布前预览生成的静态文件，看看效果。默认的访问地址是<code>http://localhost:4000/</code> 或者 <code>http://0.0.0.0:4000/</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate 或 hexo g</span><br></pre></td></tr></table></figure>
+
+<p>4、发布生成的静态文件到网站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy 或 hexo d</span><br></pre></td></tr></table></figure>
+
+<p>5、清除缓存文件 (db.json) 和已生成的静态文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+
+<p>实际操作中建议发布博客时使用下面的命令流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+
+
+<p>博客的编写推荐软件使用<a target="_blank" rel="noopener" href="http://25.io/mou/">Mou</a>和<a target="_blank" rel="noopener" href="http://macdown.uranusjr.com/">MacDown</a>,这里就不介绍如何使用，官方文档很清楚了。</p>
+<p>个人博客搭建成功，默认的主题是<code>landscape</code>，你可以根据喜好选择主题进行配置，可以参考下面的资料。最后说一下关于博客中使用图片的问题，可以选择托管到<a href="github.com">Github</a>或者<a target="_blank" rel="noopener" href="http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/">七牛</a>。综合考虑到访问速度、稳定性、和管理等因素，我最终把博客中的图片上传到<a target="_blank" rel="noopener" href="https://git.oschina.net/login">Oschina</a>,本地用git管理图片资源，只需要注意下图片命名就好，关于如何拿到上传到oschina中的图片链接可以参考我之前的一篇博客**<a href="http://alex-daocaoren.github.io/2014/10/23/2014-09-23-qi-ye-nei-wang-fen-fa-ipa/">传送门</a>**</p>
+<p><strong><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">Hexo官网</a></strong></p>
+<p><strong><a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo主题库</a></strong></p>
+<p><strong><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/ebc3b4281d52">博客主题配置</a></strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/06/27/%E8%A7%A3%E5%86%B3Xocde%E6%8F%92%E4%BB%B6%E6%9C%89%E6%97%B6%E5%9B%A0%E5%8D%87%E7%BA%A7%E7%AD%89%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="解决Xocde插件有时因升级等不能使用的问题">
+      <i class="fa fa-chevron-left"></i> 解决Xocde插件有时因升级等不能使用的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/05/16/%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93%E4%B9%8Bproperty%E7%9B%B8%E5%85%B3/" rel="next" title="基础总结之property相关">
+      基础总结之property相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">一、 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Github-%E9%85%8D%E7%BD%AE%E8%BF%87SSH-key%E7%9A%84%E8%AF%B7%E5%BF%BD%E7%95%A5"><span class="nav-number">2.</span> <span class="nav-text">二、Github 配置过SSH key的请忽略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHexo"><span class="nav-number">3.</span> <span class="nav-text">三、安装配置Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%86%99%E5%8D%9A%E5%AE%A2"><span class="nav-number">4.</span> <span class="nav-text">四、写博客</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daocaoren</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daocaoren</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
