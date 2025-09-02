@@ -1,0 +1,202 @@
+Package: ai.akemi.appsyncunified
+Version: 116.0
+Architecture: iphoneos-arm
+Maintainer: Karen/あけみ <karen@akemi.ai>
+Installed-Size: 508
+Depends: firmware (>= 5.0), mobilesubstrate (>= 0.9.5100)
+Conflicts: us.hackulo.appsync50, us.hackulo.appsync50plus, com.hackyouriphone.appsync7, com.teiron.ppsync, appsync50plus2.25pp, com.linusyang.appsync, com.sull.appsyncunified, com.sull.appsyncunifiedbeta, com.xsellize.appsync50, com.xsellize.appsync50plus, appsync50plus.178, appsync50plus2.178, cydia.net.angelxwind.appsyncunified, com.ifucker.appsync, com.sexyphonetech.appsyncunified, appsyncunifiedofficial, org.digbick.asufixed, cn.mingmei.asu623517234615234813, technology.goated.appsync, technology.goated.appsyncunified, vaginalfisting.appsynctool, science.xnu.substitute, akemi.appsink, akemi.appsyncunifed, akemi.appsyncunifed2, akemi.appsyncunifedpatched, appsyncpatched, appsyncrootless, weaponized.autism.technology.appsyncunified, ellekit (<< 1.1)
+Replaces: us.hackulo.appsync50, net.angelxwind.appsyncunified
+Provides: appsync, net.angelxwind.appsyncunified
+Filename: debs/ai.akemi.appsyncunified_116.0_iphoneos-arm.deb
+Size: 55506
+MD5sum: 96c83a32dc38032df8c7d5ba9fc12330
+SHA1: 3210636be2776c622d7dbf632b153efa5344e76e
+SHA256: 5e546fed7b31ef739c1d06084a0c10e1d0f12c342218307509347d2c3519b0bc
+Section: Tweaks
+Homepage: https://cydia.akemi.ai/
+Description: Enables the ability to install unsigned/fakesigned iOS applications.
+Author: Karen/あけみ, Linus Yang <karen@akemi.ai>
+Depiction: https://cydia.akemi.ai/?page/ai.akemi.appsyncunified
+Name: AppSync Unified
+
+Package: ai.akemi.appsyncunified
+Version: 116.0
+Architecture: iphoneos-arm64
+Maintainer: Karen/あけみ <karen@akemi.ai>
+Installed-Size: 508
+Depends: firmware (>= 5.0), mobilesubstrate (>= 0.9.5100)
+Conflicts: us.hackulo.appsync50, us.hackulo.appsync50plus, com.hackyouriphone.appsync7, com.teiron.ppsync, appsync50plus2.25pp, com.linusyang.appsync, com.sull.appsyncunified, com.sull.appsyncunifiedbeta, com.xsellize.appsync50, com.xsellize.appsync50plus, appsync50plus.178, appsync50plus2.178, cydia.net.angelxwind.appsyncunified, com.ifucker.appsync, com.sexyphonetech.appsyncunified, appsyncunifiedofficial, org.digbick.asufixed, cn.mingmei.asu623517234615234813, technology.goated.appsync, technology.goated.appsyncunified, vaginalfisting.appsynctool, science.xnu.substitute, akemi.appsink, akemi.appsyncunifed, akemi.appsyncunifed2, akemi.appsyncunifedpatched, appsyncpatched, appsyncrootless, weaponized.autism.technology.appsyncunified, ellekit (<< 1.1)
+Replaces: us.hackulo.appsync50, net.angelxwind.appsyncunified
+Provides: appsync, net.angelxwind.appsyncunified
+Filename: debs/ai.akemi.appsyncunified_116.0_iphoneos-arm64.deb
+Size: 35710
+MD5sum: 144ddaf472b72d11cd43afd54c5bf660
+SHA1: 3afe75b598d836ac93ac02516e947e4e2b6abe1d
+SHA256: b87c399f826f129af13148365de99145da0619e3a615b83ac3ee6eae8879ff67
+Section: Tweaks
+Homepage: https://cydia.akemi.ai/
+Description: Enables the ability to install unsigned/fakesigned iOS applications.
+Author: Karen/あけみ, Linus Yang <karen@akemi.ai>
+Depiction: https://cydia.akemi.ai/?page/ai.akemi.appsyncunified
+Name: AppSync Unified
+
+Package: com.masterking.applist
+Version: 0.0.2
+Architecture: iphoneos-arm
+Maintainer: masterking
+Installed-Size: 260
+Filename: debs/com.masterking.applist_0.0.2_iphoneos-arm.deb
+Size: 8966
+MD5sum: 732d5afed1341cd4c4cd78e93c19c071
+SHA1: 5ef08e29f80c0e59e3dc683bb1218e4b25416167
+SHA256: 395adbf832545bde75677cc1b89636829e5422f93625d4d41fe0c5777272f331
+Section: Utilities
+Description: a command line tool list installed applications on jailbroken iOS devices
+Tag: role::hacker
+Author: masterking
+Name: applist
+
+Package: com.masterking.applist
+Version: 0.0.2
+Architecture: iphoneos-arm64
+Maintainer: masterking
+Installed-Size: 164
+Filename: debs/com.masterking.applist_0.0.2_iphoneos-arm64.deb
+Size: 5556
+MD5sum: 0b2e4869f34fa409d9760368c71be0cc
+SHA1: aa66895e9b27dc1b1d726c434915562527a2c2c4
+SHA256: b3202e4edc875582c39626afa68fa59b3067105dbf8f1e6ce8dd47136d6ab137
+Section: Utilities
+Description: a command line tool list installed applications on jailbroken iOS devices
+Tag: role::hacker
+Author: masterking
+Name: applist
+
+Package: com.masterking.lookinloader2
+Version: 0.0.2
+Architecture: iphoneos-arm64
+Maintainer: masterKing <masterking1012@gmail.com>
+Installed-Size: 1632
+Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
+Filename: debs/com.masterking.lookinloader2_0.0.2_iphoneos-arm64.deb
+Size: 238374
+MD5sum: 39752269bb4a175dd8a975fbbc155f1d
+SHA1: 586f529c7a7160f7a81066cf1f8ed1ca350959e9
+SHA256: 013aa196b4df72f00de4cf1c8836c3f21d8fb4469bb4f77fd8ebb1e349ea1adf
+Section: Tweaks
+Description: Dynamically loads LookinServer.framework into iOS applications.
+Author: masterKing <masterking1012@gmail.com>
+Name: LookinLoader2
+
+Package: com.masterking.lookinloader2
+Version: 0.0.2
+Architecture: iphoneos-arm
+Maintainer: masterKing <masterking1012@gmail.com>
+Installed-Size: 1696
+Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
+Filename: debs/com.masterking.lookinloader2_0.0.2_iphoneos-arm.deb
+Size: 243550
+MD5sum: e050a5df1e63451f19b8901beaf081bf
+SHA1: 7aa1b6a515e2d5d2177572a7b1c9cccae4d6abd5
+SHA256: 0beb2fcd2672bc6e4c44270bfb4ae754f7f077f2ac3ca9f9e26d50ec456b3a60
+Section: Tweaks
+Description: Dynamically loads LookinServer.framework into iOS applications.
+Author: masterKing <masterking1012@gmail.com>
+Name: LookinLoader2
+
+Package: com.masterking.mugua
+Version: 0.0.1
+Architecture: iphoneos-arm
+Maintainer: masterking
+Installed-Size: 200
+Depends: mobilesubstrate (>= 0.9.5000)
+Filename: debs/com.masterking.mugua_0.0.1_iphoneos-arm.deb
+Size: 7736
+MD5sum: ea9363e877e9d1516a8bc0a0a7ebc417
+SHA1: cecca7cb5f36e0ace9a45fc1584e0aaf90045def
+SHA256: 2367c600f11bc24ef3acc1e8b082bf05434e7f16e6f0006e697d16d3c7f2a2e4
+Section: Tweaks
+Description: 木瓜直播付费观看绕过插件，开始付费直播后点击右下角叹号按钮
+Author: masterking
+Name: mugua
+
+Package: com.masterking.mugua
+Version: 0.0.1
+Architecture: iphoneos-arm64
+Maintainer: masterking
+Installed-Size: 168
+Depends: mobilesubstrate (>= 0.9.5000)
+Filename: debs/com.masterking.mugua_0.0.1_iphoneos-arm64.deb
+Size: 5168
+MD5sum: 3db2866ab150dfb4492f231aee1f2cdb
+SHA1: 4c3108ac7927a748af5fca9dd4929a9ff06b1e57
+SHA256: a7bc6ee47af29fd204d1ba24be7058451dc551f3fa1eeba0a29be5aaaa1c1029
+Section: Tweaks
+Description: 木瓜直播付费观看绕过插件，开始付费直播后点击右下角叹号按钮
+Author: masterking
+Name: mugua
+
+Package: com.masterking.revealloader2
+Version: 0.0.2
+Architecture: iphoneos-arm
+Maintainer: masterKing <masterking1012@gmail.com>
+Installed-Size: 1668
+Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
+Filename: debs/com.masterking.revealloader2_0.0.2_iphoneos-arm.deb
+Size: 281704
+MD5sum: da8a42a795317b380c4076db86dd078e
+SHA1: 5b16c293d51ec7f8524dc944922b5d6d7d729a0b
+SHA256: a0a404efa39cd1a151609b6c9272d32916d25ab1552e48881231f56b7d7b5518
+Section: Tweaks
+Description: Dynamically loads RevealServer.framework into iOS applications.
+Author: masterKing <masterking1012@gmail.com>
+Name: RevealLoader2
+
+Package: com.masterking.revealloader2
+Version: 0.0.2
+Architecture: iphoneos-arm64
+Maintainer: masterKing <masterking1012@gmail.com>
+Installed-Size: 1604
+Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
+Filename: debs/com.masterking.revealloader2_0.0.2_iphoneos-arm64.deb
+Size: 278204
+MD5sum: cf4eca6f6828af75e770fefb2cef5e77
+SHA1: 3036328253393c431fb8cc4e336f4904821e0260
+SHA256: d9a19a2272ed930014f7a7617692ab599b20b30fa9f4fca5d22419b5cd53c516
+Section: Tweaks
+Description: Dynamically loads RevealServer.framework into iOS applications.
+Author: masterKing <masterking1012@gmail.com>
+Name: RevealLoader2
+
+Package: com.masterking.wechattweak
+Version: 0.0.2
+Architecture: iphoneos-arm
+Maintainer: masterking
+Installed-Size: 232
+Depends: mobilesubstrate (>= 0.9.5000)
+Filename: debs/com.masterking.wechattweak_0.0.2_iphoneos-arm.deb
+Size: 29384
+MD5sum: d1a6849f275453b154f8129985c83e3f
+SHA1: adc3dc29a881eab2bd3321faba4372638081ec12
+SHA256: 04c0674b7a87cf768e0066d062c1b43aff262cef70fcdc5eafc716108105088e
+Section: Tweaks
+Description: Automated WeChat Red Envelope Tweak
+Author: masterking
+Name: wechattweak
+
+Package: com.masterking.wechattweak
+Version: 0.0.2
+Architecture: iphoneos-arm64
+Maintainer: masterking
+Installed-Size: 200
+Depends: mobilesubstrate (>= 0.9.5000)
+Filename: debs/com.masterking.wechattweak_0.0.2_iphoneos-arm64.deb
+Size: 20554
+MD5sum: 706994eac4df7be6a400b01c287f2ff0
+SHA1: 8c7ead501bf64403ff63f3b164c2f505d919e618
+SHA256: 21913b40644826fa841f9a9656c32ee81a1f3bb6cefa8d6d8397958bef551cf2
+Section: Tweaks
+Description: Automated WeChat Red Envelope Tweak
+Author: masterking
+Name: wechattweak
+
